@@ -57,7 +57,6 @@ public class MyDevice {
         display.show("BOMB");
         pause(5);
 
-
         게임시작();
         게임시작();
         게임시작();
@@ -96,8 +95,10 @@ public class MyDevice {
         long limit = 300;
         display.show("10.00");
         pause(1);
-        while(true){
+        for(int i = 0 ;; i++){
             limit -= 1;
+            light.on(i%7, WHITE);
+            light.off((i+6)%7);
             display.show('0'+Long.toString(limit/100)+'.'+Long.toString(limit%100));
             pause(0.01);
             if(limit == 0 ){
