@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/g_back"
+        android:src="@drawable/g_startt"
         android:visibility="visible" />
 
     <LinearLayout
@@ -27,7 +27,8 @@
             android:layout_gravity="left"
             android:layout_weight="1"
             android:background="@android:color/holo_red_dark"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:id="@+id/img_wire2"
@@ -38,7 +39,8 @@
             android:layout_marginRight="80dp"
             android:layout_weight="1"
             android:background="@android:color/holo_green_light"
-            android:orientation="horizontal" />
+            android:orientation="horizontal"
+            android:visibility="invisible"/>
 
         <ImageButton
             android:id="@+id/img_wire3"
@@ -47,11 +49,8 @@
             android:layout_gravity="right"
             android:layout_weight="1"
             android:background="@android:color/holo_blue_dark"
-            android:orientation="horizontal" />
-
-
-
-
+            android:orientation="horizontal"
+            android:visibility="invisible"/>
     </LinearLayout>
 
     <ImageView
@@ -62,7 +61,8 @@
         android:layout_alignParentEnd="true"
         android:paddingBottom="20dp"
         android:paddingRight="20dp"
-        android:src="@drawable/g_sci" />
+        android:src="@drawable/g_sci"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>
