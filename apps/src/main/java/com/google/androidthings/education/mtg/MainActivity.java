@@ -30,6 +30,8 @@ import com.google.android.things.pio.PeripheralManagerService;
 import java.io.IOException;
 
 import static com.google.androidthings.education.mtg.Led.ALL;
+import static com.google.androidthings.education.mtg.Led.BLUE;
+import static com.google.androidthings.education.mtg.Led.GREEN;
 import static com.google.androidthings.education.mtg.Led.RED;
 
 public class MainActivity extends Activity {
@@ -115,7 +117,13 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void run() {
-                    myDevice.pause(1);
+
+                    light.on(0, BLUE);
+                    light.on(3, GREEN);
+                    light.on(6, RED);
+
+                    display.show("BOMB");
+                    myDevice.pause(5);
 
                     runOnUiThread(new Runnable() {
                         public void run() {
@@ -126,7 +134,6 @@ public class MainActivity extends Activity {
                             img_wire3.setVisibility(View.VISIBLE);
                         }
                     });
-                    myDevice.pause(1);
                     myDevice.게임시작();
 
                     boolean result = myDevice.기다리기();

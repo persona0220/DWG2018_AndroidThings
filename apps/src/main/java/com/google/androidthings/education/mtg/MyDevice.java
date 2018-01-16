@@ -53,15 +53,6 @@ public class MyDevice {
 
     /** 여기서부터 시작 */
     void 게임시작(){
-
-        light.on(0, BLUE);
-        light.on(3, GREEN);
-        light.on(6, RED);
-
-        display.show("BOMB");
-        pause(5);
-
-
         Random random = new Random();
         display.clear();
         light.off(ALL);
