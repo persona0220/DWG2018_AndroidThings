@@ -56,7 +56,7 @@ public class MyDevice {
 
         display.show("BOMB");
         pause(5);
-        display.clear();
+
 
         게임시작();
         게임시작();
@@ -67,7 +67,10 @@ public class MyDevice {
 
     void 게임시작(){
         Random random = new Random();
-        //RED, GREEN, BLUE, VIOLET, ORANGE
+
+        display.clear();
+        light.off(ALL);
+
         int [] Colors = {RED, GREEN, BLUE, VIOLET, ORANGE, CYAN};
 
         int answer = (int)(random.nextInt(3));
@@ -89,22 +92,30 @@ public class MyDevice {
         light.off(ALL);
 
         //WAITING
-        int cnt = 3;
-        if(Colors[answer] == RED)
-            display.show("RED");
-        else if(Colors[answer] == GREEN)
-            display.show("GREN");
-        else if(Colors[answer] == BLUE)
-            display.show("BLUE");
-
-        while(cnt-- > 0){
+        int cnt = 10;
+        double time = 10.00;
+        while(time > 0){
             for(int position = 0; position < 7; position++){
                 light.off(ALL);
                 light.on(position, WHITE);
                 pause(0.1);
             }
+            display.show(" "+time);
+            time--;
         }
+        display.show(" " + time);
 
+        if(time == 0){
+            //시간초과
+            펑();
+        }
+    }
+
+    void 펑(){
+        light.setBrightness(9);
+        light.on(ALL, RED);
+        display.show("****");
+        pause(3);
     }
     void 예제() {
         // two arguments
