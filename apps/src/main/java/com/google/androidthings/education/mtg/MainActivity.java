@@ -51,31 +51,15 @@ public class MainActivity extends Activity {
             new Thread() {
                 @Override
                 public void run() {
+
+                    //화면전환
                     myDevice.pause(1);
                     myDevice.게임시작();
 
-                    //WAITING
-                    long limit = 300;
-                    display.show("10.00");
-                    myDevice.pause(0.01);
-                    while(true){
-                        limit -= 1;
-                        display.show('0'+Long.toString(limit/100)+'.'+Long.toString(limit%100));
-                        myDevice.pause(0.01);
-                        if(limit == 0 ){
-                            display.show("00.00");
-                            break;
-                        }
-                        display.clear();
-                    }
+                    //화면전환
+                    myDevice.기다리기();
+                    펑();
 
-                    if(limit == 0){
-                        펑();
-                    }
-
-
-
-                    myDevice.pause(1);
                     finish();
                 }
             }.start();

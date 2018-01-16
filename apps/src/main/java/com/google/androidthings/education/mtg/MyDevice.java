@@ -85,6 +85,26 @@ public class MyDevice {
         light.off(ALL);
     }
 
+    void 기다리기(){
+        //WAITING
+        long limit = 300;
+        display.show("03.00");
+        pause(1);
+
+        for(int i = 0 ;; i++){
+            limit -= 1;
+            light.on(i%7, WHITE);
+            light.off((i+6)%7);
+            display.show('0'+Long.toString(limit/100)+'.'+Long.toString(limit%100));
+            pause(0.01);
+            if(limit == 0 ){
+                display.show("00.00");
+                break;
+            }
+            display.clear();
+        }
+    }
+
     void 예제() {
         // two arguments
         light.on(ALL, RED);
