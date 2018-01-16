@@ -34,6 +34,8 @@ public class MyDevice {
     private Led light;
     private Display display;
     private MusicPlayer music;
+    private String answer = " ";
+    private int cut = 0;
 
     public MyDevice(Display display, MusicPlayer music, Led light) {
         this.display = display;
@@ -63,46 +65,65 @@ public class MyDevice {
         Random random = new Random();
         display.clear();
         light.off(ALL);
+        answer = " ";
 
         int [] Colors = {RED, GREEN, BLUE, VIOLET, ORANGE, CYAN};
 
-        int answer = (int)(random.nextInt(3));
+        cut = (int)(random.nextInt(3));
 
         int [] LEDColors = {RED, GREEN, BLUE, VIOLET, ORANGE, CYAN, ORANGE};
-        if(Colors[answer] == RED)
-            LEDColors[answer] = VIOLET;
-        else if(Colors[answer] == GREEN)
-            LEDColors[answer] = ORANGE;
-        else if(Colors[answer] == BLUE)
-            LEDColors[answer] = CYAN;
+        if(Colors[cut] == RED)
+            LEDColors[cut] = VIOLET;
+        else if(Colors[cut] == GREEN)
+            LEDColors[cut] = ORANGE;
+        else if(Colors[cut] == BLUE)
+            LEDColors[cut] = CYAN;
 
         Collections.shuffle(Arrays.asList(LEDColors));
 
         for(int i=0; i<7; i++){
             light.on(i, LEDColors[i]);
         }
-        pause(1);
+        pause(2);
         light.off(ALL);
     }
 
-    void 기다리기(){
+    boolean 기다리기(){
         //WAITING
         long limit = 300;
         display.show("03.00");
-        pause(1);
-
         for(int i = 0 ;; i++){
             limit -= 1;
             light.on(i%7, WHITE);
             light.off((i+6)%7);
             display.show('0'+Long.toString(limit/100)+'.'+Long.toString(limit%100));
             pause(0.01);
-            if(limit == 0 ){
+
+            if((""+cut).equals(answer)){
+                return true;
+            }
+            if(limit == 0 || !answer.equals(" ")){
+                Log.e("msg", ""+cut);
+                Log.e("msg", answer);
                 display.show("00.00");
-                break;
+                return false;
             }
             display.clear();
         }
+    }
+
+
+    void 펑(){
+        light.setBrightness(9);
+        light.on(ALL, RED);
+        display.show("****");
+        pause(3.0);
+    }
+
+    void 축하(){
+        light.off(ALL);
+        display.show("----");
+        pause(3.0);
     }
 
     void 예제() {
@@ -221,5 +242,9 @@ public class MyDevice {
         pause(1);
         light.off(diff);
         music.stop();
+    }
+
+    public void setAnswer(String str){
+        this.answer = str;
     }
 }
