@@ -2,6 +2,10 @@ package com.google.androidthings.education.mtg;
 
 import android.util.Log;
 
+import java.util.Random;
+import java.util.Arrays;
+import java.util.Collections;
+
 import static com.google.androidthings.education.mtg.Led.ALL;
 import static com.google.androidthings.education.mtg.Led.BLUE;
 import static com.google.androidthings.education.mtg.Led.CYAN;
@@ -45,20 +49,63 @@ public class MyDevice {
     /** 여기서부터 시작 */
 
     public void 내코드() {
-        // 1. 디스플레이 코딩. 주의: 네 글자 영어 혹은 숫자만 가능
-        //display.show("IIII");
 
-        // 2. 불 코딩
-        //light.on(1);
-        //light.on(2, CYAN);
+        light.on(0, BLUE);
+        light.on(3, GREEN);
+        light.on(6, RED);
 
-        // 3. 음악
-        //music.play(C);
+        display.show("BOMB");
+        pause(5);
+        display.clear();
 
-         데모();
-        // 예제();
+        게임시작();
+        게임시작();
+        게임시작();
+
+        display.clear();
     }
 
+    void 게임시작(){
+        Random random = new Random();
+        //RED, GREEN, BLUE, VIOLET, ORANGE
+        int [] Colors = {RED, GREEN, BLUE, VIOLET, ORANGE, CYAN};
+
+        int answer = (int)(random.nextInt(3));
+
+        int [] LEDColors = {RED, GREEN, BLUE, VIOLET, ORANGE, CYAN, ORANGE};
+        if(Colors[answer] == RED)
+            LEDColors[answer] = VIOLET;
+        else if(Colors[answer] == GREEN)
+            LEDColors[answer] = ORANGE;
+        else if(Colors[answer] == BLUE)
+            LEDColors[answer] = CYAN;
+
+        Collections.shuffle(Arrays.asList(LEDColors));
+
+        for(int i=0; i<7; i++){
+            light.on(i, LEDColors[i]);
+        }
+        pause(1);
+        light.off(ALL);
+
+        //WAITING
+        int cnt = 3;
+        if(Colors[answer] == RED)
+            display.show("RED");
+        else if(Colors[answer] == GREEN)
+            display.show("GREN");
+        else if(Colors[answer] == BLUE)
+            display.show("BLUE");
+
+        while(cnt-- > 0){
+            for(int position = 0; position < 7; position++){
+                light.off(ALL);
+                light.on(position, WHITE);
+                pause(0.1);
+            }
+        }
+
+    }
     void 예제() {
         // two arguments
         light.on(ALL, RED);
