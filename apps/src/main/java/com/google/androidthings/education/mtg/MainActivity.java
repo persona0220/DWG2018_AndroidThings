@@ -20,11 +20,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 
-
-import static com.google.androidthings.education.mtg.Led.RED;
-import static com.google.androidthings.education.mtg.MusicPlayer.Note;
 import static com.google.androidthings.education.mtg.Led.ALL;
+import static com.google.androidthings.education.mtg.Led.RED;
 
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -41,23 +41,49 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final ImageView img_back = (ImageView)findViewById(R.id.img_back);
+        final ImageView img_sci = (ImageView)findViewById(R.id.img_sci);
+        final ImageView img_wire1 = (ImageView)findViewById(R.id.img_wire1);
+        final ImageView img_wire2 = (ImageView)findViewById(R.id.img_wire2);
+        final ImageView img_wire3 = (ImageView)findViewById(R.id.img_wire3);
+
         Log.d(TAG, "onCreate");
 
         display = new Display();
         music = new MusicPlayer();
         light = new Led();
         myDevice = new MyDevice(display, music, light);
+
         if (light.open() && display.open() && music.open()) {
             new Thread() {
+
                 @Override
                 public void run() {
+                    myDevice.pause(1);
 
-                    //화면전환
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            img_back.setImageResource(R.drawable.g_back);
+                            img_sci.setVisibility(View.VISIBLE);
+                            img_wire1.setVisibility(View.VISIBLE);
+                            img_wire2.setVisibility(View.VISIBLE);
+                            img_wire3.setVisibility(View.VISIBLE);
+                        }
+                    });
                     myDevice.pause(1);
                     myDevice.게임시작();
 
-                    //화면전환
                     myDevice.기다리기();
+                    myDevice.pause(1);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            img_back.setImageResource(R.drawable.g_boom);
+                            img_sci.setVisibility(View.INVISIBLE);
+                            img_wire1.setVisibility(View.INVISIBLE);
+                            img_wire2.setVisibility(View.INVISIBLE);
+                            img_wire3.setVisibility(View.INVISIBLE);
+                        }
+                    }); //change the screen
                     펑();
 
                     finish();
