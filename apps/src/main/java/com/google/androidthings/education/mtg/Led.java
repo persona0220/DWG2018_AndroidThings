@@ -13,18 +13,19 @@ public class Led {
 
     public static final int BLACK = 0xff000000;
     public static final int WHITE = 0xffffffff;
+
     public static final int RED = 0xffff0000;
+    public static final int VIOLET = 0xFF007F;
     public static final int ORANGE = 0xffffa000;
-    public static final int YELLOW = 0xffffff00;
     public static final int GREEN = 0xff00ff00;
-    public static final int CYAN = 0xff00ffff;
     public static final int BLUE = 0xff0000ff;
-    public static final int VIOLET = 0xff3000ff;
-    public static final int MAGENTA = 0xffff00ff;
-    public static final int PINK = 0xffff00c0;
+
+    public static final int YELLOW = 0xffffff00;
+    public static final int CYAN = 0xff00ffff;
+
     public static final int ALL = 100;
 
-    private static final int DEF_BRIGHTNESS = 3;
+    private static final int DEF_BRIGHTNESS = 1;
 
 
     private Apa102 mLedStrip;
