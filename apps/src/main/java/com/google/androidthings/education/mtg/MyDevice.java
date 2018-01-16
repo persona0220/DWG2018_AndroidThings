@@ -92,6 +92,21 @@ public class MyDevice {
         light.off(ALL);
 
         //WAITING
+
+        long limit = 300;
+        display.show("10.00");
+        pause(1);
+        while(true){
+            limit -= 1;
+            display.show('0'+Long.toString(limit/100)+'.'+Long.toString(limit%100));
+            pause(0.01);
+            if(limit == 0 ){
+                display.show("00.00");
+                break;
+            }
+            display.clear();
+        }
+        /*
         int cnt = 10;
         double time = 10.00;
         while(time > 0){
@@ -104,9 +119,9 @@ public class MyDevice {
             time--;
         }
         display.show(" " + time);
+        */
 
-        if(time == 0){
-            //시간초과
+        if(limit == 0){
             펑();
         }
     }
