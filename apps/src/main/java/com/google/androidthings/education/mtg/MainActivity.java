@@ -19,8 +19,10 @@ package com.google.androidthings.education.mtg;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 
 
+import static com.google.androidthings.education.mtg.Led.RED;
 import static com.google.androidthings.education.mtg.MusicPlayer.Note;
 import static com.google.androidthings.education.mtg.Led.ALL;
 
@@ -50,7 +52,29 @@ public class MainActivity extends Activity {
                 @Override
                 public void run() {
                     myDevice.pause(1);
-                    myDevice.내코드();
+                    myDevice.게임시작();
+
+                    //WAITING
+                    long limit = 300;
+                    display.show("10.00");
+                    myDevice.pause(0.01);
+                    while(true){
+                        limit -= 1;
+                        display.show('0'+Long.toString(limit/100)+'.'+Long.toString(limit%100));
+                        myDevice.pause(0.01);
+                        if(limit == 0 ){
+                            display.show("00.00");
+                            break;
+                        }
+                        display.clear();
+                    }
+
+                    if(limit == 0){
+                        펑();
+                    }
+
+
+
                     myDevice.pause(1);
                     finish();
                 }
@@ -67,5 +91,28 @@ public class MainActivity extends Activity {
         light.close();
         display.close();
         music.close();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_A) {
+            Log.e("BUTTON", "A pressed");
+        }
+
+        if (keyCode == KeyEvent.KEYCODE_B) {
+            Log.e("BUTTON", "B pressed");
+        }
+
+        if (keyCode == KeyEvent.KEYCODE_C) {
+            Log.e("BUTTON", "C pressed");
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    void 펑(){
+        light.setBrightness(9);
+        light.on(ALL, RED);
+        display.show("****");
+        myDevice.pause(3.0);
     }
 }
