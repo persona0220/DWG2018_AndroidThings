@@ -67,7 +67,6 @@ public class MyDevice {
 
     void 게임시작(){
         Random random = new Random();
-
         display.clear();
         light.off(ALL);
 
