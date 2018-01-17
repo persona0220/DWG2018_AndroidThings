@@ -132,7 +132,9 @@ public class MainActivity extends Activity {
             new Thread() {
                 @Override
                 public void run() {
-                    while (true) myDevice.노래노래노래();
+                    while(true){
+                        while (myDevice.getSong()) myDevice.노래노래노래();
+                    }
                 }
             }.start();
             new Thread() {
