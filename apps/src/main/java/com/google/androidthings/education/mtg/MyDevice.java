@@ -113,6 +113,8 @@ public class MyDevice {
         light.setBrightness(9);
         light.on(ALL, RED);
         display.show("****");
+        song = false;
+        //music.play(MusicPlayer.Note.C);
         pause(3.0);
     }
 
@@ -125,6 +127,18 @@ public class MyDevice {
     }
 
     void 노래노래노래() {
+
+        MusicPlayer.Note [] note = {MusicPlayer.Note.G, MusicPlayer.Note.B};
+        int noteNum = 2;
+
+        for(int i=0; i<noteNum; i++){
+            if(!song) break;
+
+            music.play(note[i]);
+            pause(1);
+            //music.stop();
+        }
+        /*
         // 도레미파솔
         music.play(C);
         pause(1);
@@ -140,7 +154,7 @@ public class MyDevice {
         music.stop();
         music.play(G);
         pause(1);
-        music.stop();
+        music.stop();*/
     }
 
     // DEMO 코드
