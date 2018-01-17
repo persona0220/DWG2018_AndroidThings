@@ -33,6 +33,7 @@ public class MyDevice {
     private MusicPlayer music;
     private String answer = " ";
     private int cut = 0;
+    private boolean song = true;
 
     public MyDevice(Display display, MusicPlayer music, Led light) {
         this.display = display;
@@ -50,6 +51,7 @@ public class MyDevice {
 
     /** 여기서부터 시작 */
     void 게임시작(){
+        song = true;
         Random random = new Random();
         display.clear();
         light.off(ALL);
@@ -116,6 +118,8 @@ public class MyDevice {
 
     void 축하(){
         light.off(ALL);
+        music.stop();
+        song = false;
         display.show("----");
         pause(3.0);
     }
@@ -233,4 +237,6 @@ public class MyDevice {
     public void setAnswer(String str){
         this.answer = str;
     }
+
+    public boolean getSong(){ return this.song; }
 }
