@@ -2,12 +2,9 @@ package com.google.androidthings.education.mtg;
 
 import android.util.Log;
 
-import com.google.android.things.contrib.driver.button.Button;
-import com.google.android.things.contrib.driver.rainbowhat.RainbowHat;
-
-import java.util.Random;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 import static com.google.androidthings.education.mtg.Led.ALL;
 import static com.google.androidthings.education.mtg.Led.BLUE;
@@ -103,6 +100,12 @@ public class MyDevice {
         }
     }
 
+    void 실패(){
+        light.setBrightness(9);
+        light.on(ALL, RED);
+        display.show("FAIL");
+        pause(3.0);
+    }
 
     void 펑(){
         light.setBrightness(9);
@@ -117,10 +120,7 @@ public class MyDevice {
         pause(3.0);
     }
 
-    void 예제() {
-        // two arguments
-        light.on(ALL, RED);
-
+    void 노래노래노래() {
         // 도레미파솔
         music.play(C);
         pause(1);
@@ -137,11 +137,6 @@ public class MyDevice {
         music.play(G);
         pause(1);
         music.stop();
-
-        // Simple show
-        display.show("LOVE");
-        pause(3);
-        display.clear();
     }
 
     // DEMO 코드
