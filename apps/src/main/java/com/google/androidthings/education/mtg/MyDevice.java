@@ -135,7 +135,7 @@ public class MyDevice {
             if(!song) break;
 
             music.play(note[i]);
-            pause(1);
+            pause(0.1);
             //music.stop();
         }
         /*
