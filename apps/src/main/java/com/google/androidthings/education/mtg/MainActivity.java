@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.android.things.pio.Gpio;
@@ -29,7 +30,6 @@ import com.google.android.things.pio.PeripheralManagerService;
 
 import java.io.IOException;
 
-import static com.google.androidthings.education.mtg.Led.ALL;
 import static com.google.androidthings.education.mtg.Led.BLUE;
 import static com.google.androidthings.education.mtg.Led.GREEN;
 import static com.google.androidthings.education.mtg.Led.RED;
@@ -61,6 +61,22 @@ public class MainActivity extends Activity {
         final ImageView img_wire1 = (ImageView)findViewById(R.id.img_wire1);
         final ImageView img_wire2 = (ImageView)findViewById(R.id.img_wire2);
         final ImageView img_wire3 = (ImageView)findViewById(R.id.img_wire3);
+
+        final int[] g_flag = {0,0}; // [0]==1:replay, [0]==2:quit //[1]=# of answers
+        final ImageButton img_replay = (ImageButton)findViewById(R.id.img_replay);
+        img_replay.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override public void onClick(View view) {
+                if(g_flag[0] == 0) g_flag[0] = 1;
+            }
+        }) ;
+        final ImageButton img_quit = (ImageButton)findViewById(R.id.img_quit);
+        img_quit.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override public void onClick(View view) {
+                if(g_flag[0] == 0) g_flag[0] = 2;
+            }
+        }) ;
+
+        출처: http://recipes4dev.tistory.com/55 [개발자를 위한 레시피]
 
 
         Log.d(TAG, "onCreate");
@@ -114,7 +130,12 @@ public class MainActivity extends Activity {
 
         if (light.open() && display.open() && music.open()) {
             new Thread() {
-
+                @Override
+                public void run() {
+                    while (true) myDevice.노래노래노래();
+                }
+            }.start();
+            new Thread() {
                 @Override
                 public void run() {
 
@@ -125,44 +146,121 @@ public class MainActivity extends Activity {
                     display.show("BOMB");
                     myDevice.pause(5);
 
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            img_back.setImageResource(R.drawable.g_back);
-                            img_sci.setVisibility(View.VISIBLE);
-                            img_wire1.setVisibility(View.VISIBLE);
-                            img_wire2.setVisibility(View.VISIBLE);
-                            img_wire3.setVisibility(View.VISIBLE);
+                    while(true) {
+                        // initial screen
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                img_back.setImageResource(R.drawable.g_back);
+                                img_sci.setVisibility(View.VISIBLE);
+                                img_wire1.setVisibility(View.VISIBLE);
+                                img_wire2.setVisibility(View.VISIBLE);
+                                img_wire3.setVisibility(View.VISIBLE);
+                                img_replay.setVisibility(View.INVISIBLE);
+                                img_quit.setVisibility(View.INVISIBLE);
+                            }
+                        });
+
+                        myDevice.게임시작();
+                        boolean result = myDevice.기다리기();
+
+                        if (result == false) {
+                            //실패
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+                                    img_back.setImageResource(R.drawable.g_boom);
+                                    img_sci.setVisibility(View.INVISIBLE);
+                                    img_wire1.setVisibility(View.INVISIBLE);
+                                    img_wire2.setVisibility(View.INVISIBLE);
+                                    img_wire3.setVisibility(View.INVISIBLE);
+                                    img_replay.setVisibility(View.VISIBLE);
+                                    img_quit.setVisibility(View.VISIBLE);
+                                }
+                            }); //change the screen
+                            myDevice.펑();
+                            while(true){
+                                if(g_flag[0] != 0) break;
+                            }
+                            if(g_flag[0] == 1){
+                                g_flag[0] = 0;
+                                g_flag[1] = 0;
+                                continue;
+                            }
+                            else if(g_flag[0] == 2){
+                                break;
+                            }
+                        } else {
+                            //해제 성공
+                            g_flag[1] += 1;
+                            if(g_flag[1] == 1){
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        img_back.setImageResource(R.drawable.g_1);
+                                        img_sci.setVisibility(View.INVISIBLE);
+                                        img_wire1.setVisibility(View.INVISIBLE);
+                                        img_wire2.setVisibility(View.INVISIBLE);
+                                        img_wire3.setVisibility(View.INVISIBLE);
+                                        img_replay.setVisibility(View.INVISIBLE);
+                                        img_quit.setVisibility(View.INVISIBLE);
+                                    }
+                                }); //change the screen
+                                myDevice.pause(2);
+                                continue;
+                            }
+                            else if(g_flag[1] == 2){
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        img_back.setImageResource(R.drawable.g_2);
+                                        img_sci.setVisibility(View.INVISIBLE);
+                                        img_wire1.setVisibility(View.INVISIBLE);
+                                        img_wire2.setVisibility(View.INVISIBLE);
+                                        img_wire3.setVisibility(View.INVISIBLE);
+                                        img_replay.setVisibility(View.INVISIBLE);
+                                        img_quit.setVisibility(View.INVISIBLE);
+                                    }
+                                }); //change the screen
+                                myDevice.pause(2);
+                                continue;
+                            }
+                            else{
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        img_back.setImageResource(R.drawable.g_cong);
+                                        img_sci.setVisibility(View.INVISIBLE);
+                                        img_wire1.setVisibility(View.INVISIBLE);
+                                        img_wire2.setVisibility(View.INVISIBLE);
+                                        img_wire3.setVisibility(View.INVISIBLE);
+                                        img_replay.setVisibility(View.VISIBLE);
+                                        img_quit.setVisibility(View.VISIBLE);
+                                    }
+                                }); //change the screen
+                                myDevice.축하();
+                                while(true){
+                                    if(g_flag[0] != 0) break;
+                                }
+                                if(g_flag[0] == 1){
+                                    g_flag[0] = 0;
+                                    g_flag[1] = 0;
+                                    continue;
+                                }
+                                else if(g_flag[0] == 2){
+                                    break;
+                                }
+                            }
                         }
-                    });
-                    myDevice.게임시작();
-
-                    boolean result = myDevice.기다리기();
-
-                    if(result == false) {
-                        //실패
-                        runOnUiThread(new Runnable() {
-                            public void run() {
-                                img_back.setImageResource(R.drawable.g_boom);
-                                img_sci.setVisibility(View.INVISIBLE);
-                                img_wire1.setVisibility(View.INVISIBLE);
-                                img_wire2.setVisibility(View.INVISIBLE);
-                                img_wire3.setVisibility(View.INVISIBLE);
-                            }
-                        }); //change the screen
-                        myDevice.펑();
                     }
-                    else{
-                        //해제 성공
+                    if(g_flag[0] == 2 && g_flag[1] != 3){
+                        g_flag[0] = 0;
                         runOnUiThread(new Runnable() {
                             public void run() {
-                                img_back.setImageResource(R.drawable.g_cong);
+                                img_back.setImageResource(R.drawable.g_fail);
                                 img_sci.setVisibility(View.INVISIBLE);
                                 img_wire1.setVisibility(View.INVISIBLE);
                                 img_wire2.setVisibility(View.INVISIBLE);
                                 img_wire3.setVisibility(View.INVISIBLE);
+                                img_replay.setVisibility(View.INVISIBLE);
                             }
                         }); //change the screen
-                        myDevice.축하();
+                        myDevice.실패();
                     }
                     finish();
                 }
