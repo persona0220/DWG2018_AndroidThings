@@ -64,5 +64,27 @@
         android:src="@drawable/g_sci"
         android:visibility="invisible"/>
 
+    <ImageButton
+        android:id="@+id/img_replay"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="20dp"
+        android:paddingRight="20dp"
+        android:src="@drawable/g_replay"
+        android:visibility="invisible"
+        android:scaleType="centerInside"/>
 
+    <ImageButton
+        android:id="@+id/img_quit"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:paddingBottom="15dp"
+        android:paddingRight="15dp"
+        android:src="@drawable/g_quit"
+        android:visibility="invisible"
+        android:scaleType="centerInside"/>
 </RelativeLayout>
