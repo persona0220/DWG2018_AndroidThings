@@ -153,6 +153,15 @@ public class MainActivity extends Activity {
                     }
                     else{
                         //해제 성공
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                img_back.setImageResource(R.drawable.g_cong);
+                                img_sci.setVisibility(View.INVISIBLE);
+                                img_wire1.setVisibility(View.INVISIBLE);
+                                img_wire2.setVisibility(View.INVISIBLE);
+                                img_wire3.setVisibility(View.INVISIBLE);
+                            }
+                        }); //change the screen
                         myDevice.축하();
                     }
                     finish();
